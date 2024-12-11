@@ -5,10 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -21,16 +18,26 @@ public class HelloController {
     private TextField nombre;
     @FXML
     private Button start;
+    @FXML
+    private Button Enviar;
+    @FXML
+    private TextField mensaje;
 
+    String ip;
+    String name;
+    String port;
+    Socket socket;
     @FXML
     protected void onStart() {
         try {
-            String ip = IP.getText();
-            int port = Integer.parseInt(puerto.getText());
-            String name = nombre.getText();
-            System.out.println("IP: " + ip+" PORT: "+port);
+            String ip1 = IP.getText();
+            int port1 = Integer.parseInt(puerto.getText());
+            String name1 = nombre.getText();
+            ip = ip1;
+            port = String.valueOf(port1);
+            name = name1;
 
-            Socket socket =new Socket(ip,port);
+             socket =new Socket(ip1,port1);
 
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
@@ -39,5 +46,17 @@ public class HelloController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    protected void onEnviar() {
+        try {
+            ObjectOutputStream oos =new ObjectOutputStream( socket.getOutputStream());
+            oos.writeObject(new Mensaje(ip,mensaje.getText(),name));
+            mensaje.setText("");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

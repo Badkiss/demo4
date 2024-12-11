@@ -1,5 +1,6 @@
 package org.example.demo4;
 
+import java.io.BufferedReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -13,6 +14,9 @@ public class Canal extends Thread {
             this.socket = socket;
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            while (true){
+                in.readObject();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
