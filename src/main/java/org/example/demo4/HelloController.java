@@ -23,6 +23,7 @@ public class HelloController {
     @FXML
     private TextField mensaje;
 
+    Escucha escucha;
     String ip;
     String name;
     String port;
@@ -36,9 +37,9 @@ public class HelloController {
             ip = ip1;
             port = String.valueOf(port1);
             name = name1;
-
              socket =new Socket(ip1,port1);
-
+             escucha = new Escucha(socket);
+             escucha.start();
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         } catch (UnknownHostException e) {
