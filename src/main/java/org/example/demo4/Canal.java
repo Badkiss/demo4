@@ -26,13 +26,14 @@ public class Canal extends Thread {
     public void run() {
         while (true) {
             try {
-                while (true){
                     Mensaje mensaje=(Mensaje)in.readObject();
+
                     control.brodcast(mensaje,ServerTCP.getClientes());
                     System.out.println(mensaje.getMensaje());
-                    out.writeObject(mensaje);
 
-                }
+
+
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
