@@ -4,14 +4,12 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class Escucha extends Thread {
-    private Socket socket;
+
     private ObjectInputStream in;
 
-    public Escucha(Socket socket) {
+    public Escucha(ObjectInputStream ois) {
         try {
-            this.socket = socket;
-            in = new ObjectInputStream(socket.getInputStream());
-
+            in =ois;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

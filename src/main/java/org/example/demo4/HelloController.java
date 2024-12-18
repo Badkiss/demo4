@@ -28,6 +28,8 @@ public class HelloController {
     String name;
     String port;
     Socket socket;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
     @FXML
     protected void onStart() {
         try {
@@ -38,8 +40,11 @@ public class HelloController {
             port = String.valueOf(port1);
             name = name1;
              socket =new Socket(ip1,port1);
-             escucha = new Escucha(socket);
+             oos =new ObjectOutputStream(socket.getOutputStream());
+             ois =new ObjectInputStream(socket.getInputStream());
+             escucha = new Escucha(ois);
              escucha.start();
+
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         } catch (UnknownHostException e) {
@@ -52,7 +57,6 @@ public class HelloController {
     @FXML
     protected void onEnviar() {
         try {
-            ObjectOutputStream oos =new ObjectOutputStream( socket.getOutputStream());
             oos.writeObject(new Mensaje(ip,mensaje.getText(),name));
             mensaje.setText("");
         } catch (Exception e) {

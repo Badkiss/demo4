@@ -16,6 +16,7 @@ public class Canal extends Thread {
             this.socket = socket;
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            ServerTCP.addClientes(out);
             this.control = control;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -27,9 +28,10 @@ public class Canal extends Thread {
             try {
                 while (true){
                     Mensaje mensaje=(Mensaje)in.readObject();
+                    control.brodcast(mensaje,ServerTCP.getClientes());
                     System.out.println(mensaje.getMensaje());
                     out.writeObject(mensaje);
-                    control.brodcast(mensaje,ServerTCP.getClientes());
+
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
